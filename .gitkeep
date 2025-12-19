@@ -1,0 +1,22 @@
+$paths = @(
+"client\src\app\core\services",
+"client\src\app\core\guards",
+"client\src\app\core\interceptors",
+
+"client\src\app\shared\components",
+"client\src\app\shared\pipes",
+"client\src\app\shared\directives",
+
+"client\src\app\features\auth\pages",
+"client\src\app\features\auth\services",
+
+"client\src\app\features\students\models",
+"client\src\app\features\students\pages",
+"client\src\app\features\students\components",
+"client\src\app\features\students\services"
+)
+
+foreach ($p in $paths) {
+  New-Item -ItemType Directory -Force $p | Out-Null
+  New-Item -ItemType File -Force (Join-Path $p ".gitkeep") | Out-Null
+}
