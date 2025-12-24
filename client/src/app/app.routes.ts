@@ -1,10 +1,4 @@
 import { Routes } from '@angular/router';
-import { AppShellLayout } from './shared/components/app-shell-layout/app-shell-layout';
+import { appShellRoutes } from './shared/components/app-shell-layout/app-shell.routes';
 
-export const routes: Routes = [
-  {
-    path: '',
-    component: AppShellLayout,
-    loadChildren: () => import('./shared/app-shell/app-shell.routes').then((m) => m.appShellRoutes),
-  },
-];
+export const routes: Routes = appShellRoutes;

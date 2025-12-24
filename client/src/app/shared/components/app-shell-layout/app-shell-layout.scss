@@ -1,0 +1,10 @@
+.auth-center {
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  //   if login card is too larger to fit into the screen
+  padding: 24px;
+  overflow: auto;
+}

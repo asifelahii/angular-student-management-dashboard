@@ -1,7 +1,6 @@
 import { Routes } from '@angular/router';
 
 export const appShellRoutes: Routes = [
-    
   // ✅ Redirect only for the empty URL
   { path: '', pathMatch: 'full', redirectTo: 'students' },
 
@@ -9,14 +8,15 @@ export const appShellRoutes: Routes = [
   {
     path: 'login',
     loadComponent: () =>
-      import('../../features/auth/pages/login-page/login-page').then((m) => m.LoginPage),
+      import('../../../features/auth/pages/login-page/login-page').then((m) => m.LoginPage),
+    data: { hideShell: true },
   },
 
   // /students/:id
   {
     path: 'students/:id',
     loadComponent: () =>
-      import('../../features/students/pages/student-details-page/student-details-page').then(
+      import('../../../features/students/pages/student-details-page/student-details-page').then(
         (m) => m.StudentDetailsPage
       ),
   },
@@ -25,7 +25,7 @@ export const appShellRoutes: Routes = [
   {
     path: 'students',
     loadComponent: () =>
-      import('../../features/students/pages/students-list-page/students-list-page').then(
+      import('../../../features/students/pages/students-list-page/students-list-page').then(
         (m) => m.StudentsListPage
       ),
   },
