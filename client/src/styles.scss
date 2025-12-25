@@ -1,13 +1,8 @@
-/* =========================================
-   App global base styles (SCSS)
-   - We keep these in SCSS (your preference)
-   - Tailwind utilities stay in tailwind.css
-   ========================================= */
+@use './app/shared/ui.scss';
 
+/* App base theme (DO NOT comment this out) */
 :root {
-  /* Minimal tokens (we’ll expand later) */
-  --glass-bg: rgba(255, 255, 255, 0.1);
-  --glass-border: rgba(255, 255, 255, 0.18);
+  color-scheme: dark;
 }
 
 html,
@@ -18,14 +13,45 @@ body {
 body {
   margin: 0;
 
-  /* A calm default background so glass looks good */
-  background: radial-gradient(circle at 20% 20%, rgba(255, 255, 255, 0.1), transparent 40%),
-    radial-gradient(circle at 80% 0%, rgba(255, 255, 255, 0.08), transparent 35%), #0b1220;
+  /* Tahoe-ish dark wallpaper so glass looks like glass */
+  background: radial-gradient(circle at 20% 15%, rgba(255, 255, 255, 0.1), transparent 45%),
+    radial-gradient(circle at 80% 0%, rgba(255, 255, 255, 0.08), transparent 40%),
+    radial-gradient(circle at 50% 100%, rgba(56, 189, 248, 0.08), transparent 50%), #0b1220;
 
   color: rgba(255, 255, 255, 0.92);
+  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
 }
 
 a {
   color: inherit;
   text-decoration: none;
+}
+
+/* ===== Page layout helpers (consistent spacing) ===== */
+
+.page-container {
+  max-width: 72rem; /* ~ max-w-6xl */
+  margin-left: auto;
+  margin-right: auto;
+  padding-left: 1rem; /* px-4 */
+  padding-right: 1rem;
+}
+
+@media (min-width: 640px) {
+  .page-container {
+    padding-left: 1.5rem; /* sm:px-6 */
+    padding-right: 1.5rem;
+  }
+}
+
+@media (min-width: 1024px) {
+  .page-container {
+    padding-left: 2rem; /* lg:px-8 */
+    padding-right: 2rem;
+  }
+}
+
+.page-section {
+  padding-top: 1.5rem;
+  padding-bottom: 1.5rem;
 }
