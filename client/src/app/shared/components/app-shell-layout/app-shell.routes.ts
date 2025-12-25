@@ -1,4 +1,5 @@
 import { Routes } from '@angular/router';
+import { authGuard } from '../../../core/guards/auth-guard';
 
 export const appShellRoutes: Routes = [
   // ✅ Redirect only for the empty URL
@@ -15,6 +16,7 @@ export const appShellRoutes: Routes = [
   // /students/:id
   {
     path: 'students/:id',
+    canActivate: [authGuard],
     loadComponent: () =>
       import('../../../features/students/pages/student-details-page/student-details-page').then(
         (m) => m.StudentDetailsPage
@@ -24,6 +26,7 @@ export const appShellRoutes: Routes = [
   // /students
   {
     path: 'students',
+    canActivate: [authGuard],
     loadComponent: () =>
       import('../../../features/students/pages/students-list-page/students-list-page').then(
         (m) => m.StudentsListPage
