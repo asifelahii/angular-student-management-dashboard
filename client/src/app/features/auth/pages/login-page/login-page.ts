@@ -1,6 +1,6 @@
 import { Component } from '@angular/core';
+import { Router, ActivatedRoute } from '@angular/router';
 import { ReactiveFormsModule, FormBuilder, Validators, FormGroup } from '@angular/forms';
-import { Router } from '@angular/router';
 import { Auth } from '../../services/auth';
 
 @Component({
@@ -31,7 +31,12 @@ export class LoginPage {
 
   //   my self
 
-  constructor(private authService: Auth, private fb: FormBuilder, private router: Router) {
+  constructor(
+    private authService: Auth,
+    private fb: FormBuilder,
+    private router: Router,
+    private route: ActivatedRoute
+  ) {
     this.form = this.fb.group({
       email: [
         '',
@@ -72,7 +77,15 @@ export class LoginPage {
       return;
     }
 
-    // if succeeded, go to students page
-    this.router.navigateByUrl('/students');
+    const returnUrl = this.route.snapshot.queryParamMap.get('returnUrl');
+    const target = this.isSafeReturnUrl(returnUrl) ? returnUrl! : '/students';
+
+    this.router.navigateByUrl(target);
+  }
+
+  private isSafeReturnUrl(url: string | null): boolean {
+    if (!url) return false;
+    // Check if URL is relative and doesn't contain harmful protocols
+    return url.startsWith('/') && !url.startsWith('//');
   }
 }
