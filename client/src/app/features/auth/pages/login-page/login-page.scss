@@ -1,0 +1,21 @@
+// avatar icon
+.auth-avatar {
+  position: relative;
+  top: 20px;
+  left: 50%;
+  transform: translate(-50%, -55%);
+  height: 56px;
+  width: 56px;
+  border-radius: 999px;
+
+  display: grid;
+  place-items: center;
+
+  color: rgba(255, 255, 255, 0.92);
+  background: rgba(255, 255, 255, 0.1);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  box-shadow: 0 12px 30px rgba(0, 0, 0, 0.35), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
