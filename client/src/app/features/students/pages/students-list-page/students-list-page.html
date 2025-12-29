@@ -1,28 +1,74 @@
 <div class="glass-surface glass-noise glass-card">
-  <div class="flex items-start justify-between gap-4">
+  <div class="flex items-start justify-between gap-4"></div>
+
+  <!-- Search - sort begin -->
+  <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
+    <!-- Title -->
     <div>
-      <h1 class="text-2xl font-semibold">Students</h1>
-      <!-- <p class="mt-1 text-sm text-muted">Browse students. Click a card to view details.</p> -->
+      <h1 class="text-2xl font-semibold text-white/95">Students</h1>
+      <p class="mt-1 text-sm text-muted">Search by name or email. Sort the list.</p>
     </div>
 
-    <button type="button" class="glass-btn" style="width: auto" (click)="onAddStudent()">
-      Add Student
-    </button>
+    <!-- Controls -->
+    <div class="flex flex-col gap-2 sm:flex-row sm:items-center">
+      <!-- Search -->
+      <div class="w-full sm:w-72">
+        <label class="block text-xs text-white/60 mb-1">Search</label>
+        <input
+          class="glass-input"
+          type="text"
+          placeholder="Search name or email…"
+          [(ngModel)]="query"
+        />
+      </div>
+
+      <!-- Sort by -->
+      <div class="w-full sm:w-52">
+        <app-glass-select label="Sort by" [options]="sortOptions" [(value)]="sortBy" />
+      </div>
+
+      <!-- Sort direction -->
+      <div>
+        <label class="block text-xs text-white/60 mb-1">Order</label>
+        <button
+          type="button"
+          class="nav-pill"
+          (click)="sortDir = sortDir === 'asc' ? 'desc' : 'asc'"
+          style="background: rgba(255, 255, 255, 0.1)"
+        >
+          @if (sortDir === 'asc') { A–Z } @else { Z–A }
+        </button>
+      </div>
+
+      <!-- Add Student (no functionality) -->
+      <div>
+        <label class="block text-xs text-white/60 mb-1">&nbsp;</label>
+        <button type="button" class="glass-btn" style="width: auto" (click)="onAddStudent()">
+          Add Student
+        </button>
+      </div>
+    </div>
   </div>
+  <!-- search - sort ends -->
 
   <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 items-stretch">
-    @for (s of students; track s.id) {
+    @for (s of visibleStudents; track s.id) {
     <app-student-card [student]="s" />
     }
   </div>
 
-  @if (!students || students.length === 0) {
+  @if (students.length === 0) {
   <div class="mt-6 glass-surface glass-noise glass-card text-center">
-    <div class="text-lg font-semibold text-white/90">No students found</div>
+    <div class="text-lg font-semibold text-white/90">No students yet</div>
     <p class="mt-2 text-sm text-muted">
       Your student list is empty right now. Click
       <span class="text-white/90 font-semibold">Add Student</span> to start.
     </p>
+  </div>
+  } @else if (visibleStudents.length === 0) {
+  <div class="mt-6 glass-surface glass-noise glass-card text-center">
+    <div class="text-lg font-semibold text-white/90">No students found</div>
+    <p class="mt-2 text-sm text-muted">Try a different search term or change the sort.</p>
   </div>
   }
 </div>

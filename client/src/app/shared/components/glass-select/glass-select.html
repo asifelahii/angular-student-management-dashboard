@@ -1,0 +1,37 @@
+<div class="gs">
+  @if (label) {
+  <label class="gs__label">{{ label }}</label>
+  }
+
+  <!-- Trigger -->
+  <button
+    type="button"
+    class="gs__trigger"
+    (click)="toggle()"
+    (keydown)="onTriggerKeydown($event)"
+    [attr.aria-expanded]="open"
+    aria-haspopup="listbox"
+  >
+    <span class="gs__value">{{ selectedLabel }}</span>
+    <span class="gs__chev" aria-hidden="true"></span>
+  </button>
+
+  <!-- Menu -->
+  @if (open) {
+  <div class="gs__menu glass-surface glass-noise" role="listbox">
+    @for (opt of options; track opt.value) {
+    <button
+      type="button"
+      class="gs__option"
+      [class.is-selected]="opt.value === value"
+      (click)="select(opt)"
+      role="option"
+      [attr.aria-selected]="opt.value === value"
+    >
+      <span class="gs__dot"></span>
+      <span class="gs__opt-label">{{ opt.label }}</span>
+    </button>
+    }
+  </div>
+  }
+</div>
