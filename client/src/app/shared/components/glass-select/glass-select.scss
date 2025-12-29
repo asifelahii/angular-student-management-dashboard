@@ -1,0 +1,229 @@
+/* Fully custom glass dropdown (transparent popup + blur + hover) */
+
+.gs {
+  position: relative;
+  width: 100%;
+}
+
+.gs__label {
+  display: block;
+  font-size: 12px;
+  margin-bottom: 6px;
+  color: rgba(255, 255, 255, 0.6);
+}
+
+/* Trigger: glass pill */
+.gs__trigger {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+
+  padding: 11px 12px;
+  border-radius: 16px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+
+  background: rgba(255, 255, 255, 0.06); /* transparent */
+  backdrop-filter: blur(22px);
+  -webkit-backdrop-filter: blur(22px);
+
+  color: rgba(255, 255, 255, 0.92);
+  box-shadow: 0 12px 32px rgba(0, 0, 0, 0.3), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+
+  transition: background 180ms ease, border-color 180ms ease, box-shadow 180ms ease,
+    transform 180ms ease;
+
+  outline: none;
+}
+
+.gs__trigger:hover {
+  background: rgba(255, 255, 255, 0.075);
+  border-color: rgba(255, 255, 255, 0.22);
+  box-shadow: 0 18px 45px rgba(0, 0, 0, 0.38), 0 0 18px rgba(255, 255, 255, 0.08),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.gs__trigger:active {
+  transform: translateY(1px);
+}
+
+.gs__trigger:focus-visible {
+  border-color: rgba(255, 255, 255, 0.3);
+  box-shadow: 0 22px 55px rgba(0, 0, 0, 0.42), 0 0 0 3px rgba(255, 255, 255, 0.1),
+    inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+.gs__value {
+  font-weight: 600;
+  opacity: 0.95;
+}
+
+/* Chevron */
+.gs__chev {
+  width: 10px;
+  height: 10px;
+  transform: rotate(45deg);
+  border-right: 2px solid rgba(255, 255, 255, 0.55);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.55);
+  opacity: 0.95;
+}
+
+/* Menu: true glass popup */
+.gs__menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  right: 0;
+  z-index: 60;
+
+  border-radius: 18px;
+  overflow: hidden;
+
+  padding: 6px;
+
+  transform-origin: top;
+  animation: gs-pop 140ms ease-out;
+}
+
+/* Darker glass just for dropdown panels */
+.gs__menu.glass-surface {
+  background: rgba(10, 14, 24, 0.88);
+  border-color: rgba(255, 255, 255, 0.14);
+  backdrop-filter: blur(26px);
+  -webkit-backdrop-filter: blur(26px);
+
+  box-shadow: 0 28px 70px rgba(0, 0, 0, 0.62), inset 0 1px 0 rgba(255, 255, 255, 0.1);
+}
+
+@keyframes gs-pop {
+  from {
+    transform: translateY(-6px) scale(0.985);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+/* Options become “pill rows” (same as nav language) */
+.gs__option {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 10px 12px;
+  margin: 4px 0;
+
+  border-radius: 14px;
+  border: 1px solid transparent;
+
+  background: transparent;
+  color: rgba(255, 255, 255, 0.86);
+  cursor: pointer;
+
+  transition: background 140ms ease, border-color 140ms ease, transform 140ms ease, color 140ms ease;
+}
+
+.gs__option:hover {
+  background: rgba(255, 255, 255, 0.1);
+  border-color: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.96);
+}
+
+.gs__option:active {
+  transform: translateY(1px);
+}
+
+/* Selected = subtle glow + stronger border */
+.gs__option.is-selected {
+  background: rgba(255, 255, 255, 0.12);
+  border-color: rgba(255, 255, 255, 0.18);
+  box-shadow: 0 0 0 1px rgba(255, 255, 255, 0.06) inset, 0 0 18px rgba(56, 189, 248, 0.1);
+}
+
+.gs__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.38);
+  flex: 0 0 auto;
+}
+
+.gs__option.is-selected .gs__dot {
+  background: rgba(56, 189, 248, 0.92);
+}
+
+.gs__opt-label {
+  font-weight: 600;
+  opacity: 0.95;
+}
+
+@keyframes gs-pop {
+  from {
+    transform: translateY(-4px) scale(0.98);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+  }
+}
+
+/* Option */
+.gs__option {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  padding: 12px 12px;
+  text-align: left;
+
+  background: transparent;
+  border: none;
+  color: rgba(255, 255, 255, 0.88);
+
+  cursor: pointer;
+  transition: background 140ms ease, color 140ms ease;
+}
+
+.gs__option:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: rgba(255, 255, 255, 0.96);
+}
+
+.gs__option.is-selected {
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.gs__dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.4);
+}
+
+.gs__option.is-selected .gs__dot {
+  background: rgba(56, 189, 248, 0.9); /* subtle “accent” dot */
+}
+
+.gs__opt-label {
+  font-weight: 600;
+  opacity: 0.95;
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  .gs__menu {
+    animation: none;
+  }
+  .gs__trigger {
+    transition: none;
+  }
+  .gs__option {
+    transition: none;
+  }
+}
