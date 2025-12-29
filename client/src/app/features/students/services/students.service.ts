@@ -1,11 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { map } from 'rxjs';
+import { map, Observable } from 'rxjs';
 
 import { Student } from '../models/student/student.models';
 
-Injectable({ providedIn: 'root' });
-
+@Injectable({ providedIn: 'root' })
 export class StudentsService {
   departments = [
     'Computer Science',
@@ -21,12 +20,13 @@ export class StudentsService {
   studentStatus = ['Active', 'Inactive', 'Graduated'];
 
   private USERS_API_URL = 'https://jsonplaceholder.typicode.com/users';
+
   private AVATAR_API_URL = 'https://randomuser.me/portraits/men';
 
   constructor(private http: HttpClient) {}
 
-  getStudents(n: number) {
-    this.http.get<any[]>(this.USERS_API_URL).pipe(
+  getStudents(n: number): Observable<Student[]> {
+    return this.http.get<any[]>(this.USERS_API_URL).pipe(
       map((users) =>
         users.slice(0, n).map(
           (user) =>

@@ -1,0 +1,47 @@
+/* Avatar */
+.avatar {
+  width: 44px;
+  height: 44px;
+
+  /* ✅ Prevent flex from squeezing it */
+  flex: 0 0 auto;
+  min-width: 44px;
+
+  border-radius: 14px;
+  border: 1px solid rgba(255, 255, 255, 0.16);
+  background: rgba(255, 255, 255, 0.1);
+  display: grid;
+  place-items: center;
+  font-weight: 700;
+  color: rgba(255, 255, 255, 0.92);
+  user-select: none;
+}
+
+.badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 4px 10px;
+  border-radius: 999px;
+  font-size: 12px;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.08);
+  color: rgba(255, 255, 255, 0.85);
+}
+
+.badge-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.55);
+}
+
+.badge--active .badge-dot {
+  background: rgba(34, 197, 94, 0.85);
+}
+.badge--inactive .badge-dot {
+  background: rgba(248, 113, 113, 0.85);
+}
+.badge--graduated .badge-dot {
+    background: rgba(59, 130, 246, 0.85);
+}
