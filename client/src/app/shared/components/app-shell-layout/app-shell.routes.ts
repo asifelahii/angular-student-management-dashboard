@@ -13,6 +13,16 @@ export const appShellRoutes: Routes = [
     data: { hideShell: true },
   },
 
+  // /students/add
+  {
+    path: 'students/add',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('../../../features/students/pages/add-student-page/add-student-page').then(
+        (m) => m.AddStudentPage
+      ),
+  },
+
   // /students/:id
   {
     path: 'students/:id',

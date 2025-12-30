@@ -1,4 +1,4 @@
-<div class="gs">
+<div class="gs" [class.is-open]="open">
   @if (label) {
   <label class="gs__label">{{ label }}</label>
   }
@@ -18,7 +18,7 @@
 
   <!-- Menu -->
   @if (open) {
-  <div class="gs__menu glass-surface glass-noise" role="listbox">
+  <div class="gs__menu glass-surface glass-noise " role="listbox">
     @for (opt of options; track opt.value) {
     <button
       type="button"
