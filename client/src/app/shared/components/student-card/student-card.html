@@ -4,10 +4,10 @@
   style="text-decoration: none"
 >
   <div class="student-card__body">
-    <!-- Top row: avatar + name/email + status -->
+    <!-- Top row: U + name/email + status -->
     <div class="flex items-start gap-4">
       <!-- Avatar (won't shrink) -->
-      <div class="avatar overflow-hidden shrink-0">
+      <!-- <div class="avatar overflow-hidden shrink-0">
         @if (student.avatarUrl && !avatarFailed) {
         <img
           [src]="student.avatarUrl"
@@ -18,6 +18,13 @@
         />
         } @else {
         {{ initials }}
+        }
+      </div> -->
+      <div class="avatar">
+        @if (student.avatarUrl) {
+        <img [src]="student.avatarUrl" [alt]="student.name" />
+        } @else {
+        {{ student.name?.[0] }}{{ student.name?.split(' ')?.[1]?.[0] ?? '' }}
         }
       </div>
 

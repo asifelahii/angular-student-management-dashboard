@@ -18,6 +18,9 @@ import type { Student } from '../../models/student/student.models';
 export class AddStudentPage {
   submitted = false;
 
+  avatarPreviewUrl: string | null = null;
+  avatarError: string | null = null;
+
   departmentOptions: GlassSelectOption<string>[] = [];
   statusOptions: GlassSelectOption<Student['status']>[] = [];
   semesterOptions: GlassSelectOption<string>[] = [];
@@ -81,9 +84,39 @@ export class AddStudentPage {
       department: value.department,
       semester: Number(value.semester),
       status: value.status,
-      avatarUrl: '',
+      avatarUrl: this.avatarPreviewUrl ?? undefined,
     });
 
     this.router.navigateByUrl('/students');
+  }
+
+  onAvatarSelected(event: Event) {
+    this.avatarError = null;
+
+    const input = event.target as HTMLInputElement;
+    const file = input.files?.[0];
+    if (!file) return;
+
+    // Basic validation
+    if (!file.type.startsWith('image/')) {
+      this.avatarError = 'Please choose an image file.';
+      return;
+    }
+
+    const maxSize = 2 * 1024 * 1024; // 2MB
+    if (file.size > maxSize) {
+      this.avatarError = 'Image is too large. Max 2MB.';
+      return;
+    }
+
+    // Convert to Base64 data URL
+    const reader = new FileReader();
+    reader.onload = () => {
+      this.avatarPreviewUrl = String(reader.result);
+    };
+    reader.onerror = () => {
+      this.avatarError = 'Failed to read the image.';
+    };
+    reader.readAsDataURL(file);
   }
 }
