@@ -1,12 +1,88 @@
-<div class="rounded-2xl border border-white/15 bg-white/10 backdrop-blur-xl p-6 shadow-lg">
-  <h1 class="text-2xl font-semibold">Student Details</h1>
+@if (isLoading) {
+<div class="glass-surface glass-noise glass-card text-center">
+  <div class="text-lg font-semibold text-white/90">Loading student…</div>
+  <p class="mt-2 text-sm text-muted">Please wait a moment.</p>
+</div>
+} @else if (!student) {
+<div class="glass-surface glass-noise glass-card text-center">
+  <div class="text-lg font-semibold text-white/90">Student not found</div>
+  <p class="mt-2 text-sm text-muted">The student ID in the URL doesn’t match any record.</p>
 
-  <p class="mt-2 opacity-80">
-    Placeholder details page for ID:
-    <span class="font-semibold">{{ studentId }}</span>
-  </p>
-
-  <a routerLink="/students" class="mt-4 inline-block underline opacity-90 hover:opacity-100">
+  <a
+    routerLink="/students"
+    class="nav-pill inline-block mt-4"
+    style="background: rgba(255, 255, 255, 0.1)"
+  >
     ← Back to Students
   </a>
 </div>
+} @else {
+<div class="glass-surface glass-noise glass-card">
+  <!-- Top bar -->
+  <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+    <a
+      routerLink="/students"
+      class="nav-pill inline-flex items-center gap-2"
+      style="background: rgba(255, 255, 255, 0.1)"
+    >
+      ← Back to Students
+    </a>
+
+    <div
+      class="status-chip"
+      [class.is-active]="student.status === 'Active'"
+      [class.is-graduated]="student.status === 'Graduated'"
+    >
+      <span class="status-dot"></span>
+      <span class="status-text">{{ student.status }}</span>
+    </div>
+  </div>
+
+  <!-- Header: avatar + identity -->
+  <div class="mt-6 flex flex-col gap-5 sm:flex-row sm:items-start">
+    <div class="avatar-lg overflow-hidden shrink-0">
+      @if (student.avatarUrl) {
+      <img [src]="student.avatarUrl" [alt]="student.name" class="h-full w-full object-cover" />
+      } @else {
+      {{ student.name?.[0] }}
+      }
+    </div>
+
+    <div class="min-w-0 flex-1">
+      <h1 class="text-3xl font-semibold text-white/95 leading-tight">
+        {{ student.name }}
+      </h1>
+
+      <div class="mt-2 flex flex-col gap-1 text-sm">
+        <div class="text-white/75">
+          <span class="text-white/55">Email:</span>
+          <span class="ml-2 font-medium text-white/90">{{ student.email }}</span>
+        </div>
+
+        <div class="text-white/75">
+          <span class="text-white/55">Phone:</span>
+          <span class="ml-2 font-medium text-white/90">{{ student.phone }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Details: tighter grid, better hierarchy -->
+  <div class="mt-8 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+    <div class="info-card">
+      <div class="info-label">Department</div>
+      <div class="info-value">{{ student.department }}</div>
+    </div>
+
+    <div class="info-card">
+      <div class="info-label">Semester</div>
+      <div class="info-value">{{ student.semester }}</div>
+    </div>
+
+    <div class="info-card">
+      <div class="info-label">Status</div>
+      <div class="info-value">{{ student.status }}</div>
+    </div>
+  </div>
+</div>
+}
