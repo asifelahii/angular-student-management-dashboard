@@ -27,9 +27,15 @@ export class StudentsService {
   constructor(private http: HttpClient) {}
 
   // getStudents(n: number): Observable<Student[]> {
+  //   // ✅ 1) If already loaded once, return from cache (no HTTP)
+  //   if (this.studentsCache) {
+  //     return of(this.studentsCache.slice(0, n));
+  //   }
+
+  //   // ✅ 2) Otherwise fetch and save into cache
   //   return this.http.get<any[]>(this.USERS_API_URL).pipe(
   //     map((users) =>
-  //       users.slice(0, n).map(
+  //       users.map(
   //         (user) =>
   //           ({
   //             id: user.id,
@@ -45,22 +51,43 @@ export class StudentsService {
   //             avatarUrl: `${this.AVATAR_API_URL}/${user.id}.jpg`,
   //           } as Student)
   //       )
-  //     )
+  //     ),
+
+  //     // ✅ save full mapped list once
+  //     tap((students) => (this.studentsCache = students)),
+
+  //     // ✅ return only requested amount
+  //     map((students) => students.slice(0, n))
   //   );
   // }
 
-  // getStudentById(id: number): Observable<Student | null> {
-  //   // Use same source as list so data is consistent
-  //   return this.getStudents(50).pipe(map((students) => students.find((s) => s.id === id) ?? null));
-  // }
-
-  getStudents(n: number): Observable<Student[]> {
-    // ✅ 1) If already loaded once, return from cache (no HTTP)
+  getStudentById(id: number): Observable<Student | null> {
+    // ✅ 1) Try cache first (fast, no HTTP)
     if (this.studentsCache) {
-      return of(this.studentsCache.slice(0, n));
+      return of(this.studentsCache.find((s) => s.id === id) ?? null);
     }
 
-    // ✅ 2) Otherwise fetch and save into cache
+    // ✅ 2) If cache empty, fetch once, then find
+    return this.getStudents(50).pipe(map((students) => students.find((s) => s.id === id) ?? null));
+  }
+
+  getStudents(n: number): Observable<Student[]> {
+    return this.ensureLoaded().pipe(map((list) => list.slice(0, n)));
+  }
+
+  getAllStudents(): Observable<Student[]> {
+    return this.ensureLoaded();
+  }
+
+  // Optional helper (useful later for logout / refresh)
+  clearCache() {
+    this.studentsCache = null;
+  }
+
+  // cache + helper
+  private ensureLoaded(): Observable<Student[]> {
+    if (this.studentsCache) return of(this.studentsCache);
+
     return this.http.get<any[]>(this.USERS_API_URL).pipe(
       map((users) =>
         users.map(
@@ -80,27 +107,19 @@ export class StudentsService {
             } as Student)
         )
       ),
-
-      // ✅ save full mapped list once
-      tap((students) => (this.studentsCache = students)),
-
-      // ✅ return only requested amount
-      map((students) => students.slice(0, n))
+      tap((students) => (this.studentsCache = students))
     );
   }
 
-  getStudentById(id: number): Observable<Student | null> {
-    // ✅ 1) Try cache first (fast, no HTTP)
-    if (this.studentsCache) {
-      return of(this.studentsCache.find((s) => s.id === id) ?? null);
-    }
+  addStudent(payload: Omit<Student, 'id'>): Student {
+    const list = this.studentsCache ?? [];
 
-    // ✅ 2) If cache empty, fetch once, then find
-    return this.getStudents(50).pipe(map((students) => students.find((s) => s.id === id) ?? null));
-  }
+    const nextId = list.length > 0 ? Math.max(...list.map((s) => s.id)) + 1 : 1;
 
-  // Optional helper (useful later for logout / refresh)
-  clearCache() {
-    this.studentsCache = null;
+    const newStudent: Student = { id: nextId, ...payload };
+
+    this.studentsCache = [newStudent, ...list];
+
+    return newStudent;
   }
 }

@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { FormsModule } from '@angular/forms';
+import { Router } from '@angular/router';
 
 import { Student } from '../../models/student/student.models';
 import { StudentsService } from '../../services/students.service';
@@ -30,10 +31,10 @@ export class StudentsListPage implements OnInit {
     { label: 'Status', value: 'status' },
   ];
 
-  constructor(private studentsService: StudentsService) {}
+  constructor(private studentsService: StudentsService, private router: Router) {}
 
   ngOnInit(): void {
-    this.studentsService.getStudents(20).subscribe((students) => {
+    this.studentsService.getAllStudents().subscribe((students) => {
       this.students = students;
     });
   }
@@ -62,6 +63,7 @@ export class StudentsListPage implements OnInit {
   }
 
   onAddStudent() {
-    alert('Add Student clicked!');
+    // Navigate to /students/add
+    this.router.navigate(['/students/add']);
   }
 }

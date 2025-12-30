@@ -278,3 +278,8 @@ select option {
 select option:hover {
   background: rgba(255, 255, 255, 0.12);
 }
+
+/* Allow dropdown menus to overflow outside a glass card when needed */
+.glass-allow-overflow {
+  overflow: visible !important;
+}

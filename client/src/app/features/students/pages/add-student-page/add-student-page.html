@@ -1,0 +1,129 @@
+<div class="glass-surface glass-noise glass-card glass-allow-overflow">
+  <div class="flex items-start justify-between gap-4">
+    <div>
+      <h1 class="text-2xl font-semibold text-white/95">Add Student</h1>
+      <p class="mt-1 text-sm text-muted">Frontend-only. This adds to in-memory list.</p>
+    </div>
+
+    <a routerLink="/students" class="nav-pill" style="background: rgba(255, 255, 255, 0.1)">
+      Cancel
+    </a>
+  </div>
+
+  <form class="mt-6 grid gap-4 sm:grid-cols-2" [formGroup]="form" (ngSubmit)="onSubmit()">
+    <!-- Name -->
+    <div>
+      <label class="block text-xs text-white/60 mb-1">Name</label>
+      <input class="glass-input" formControlName="name" placeholder="Student name" />
+      @if ((f['name'].touched || submitted) && f['name'].errors) {
+      <div class="mt-1 text-xs text-error">
+        @if (f['name'].errors['required']) { Name is required. } @if (f['name'].errors['minlength'])
+        { Name must be at least 3 characters. }
+      </div>
+      }
+    </div>
+
+    <!-- Email -->
+    <div>
+      <label class="block text-xs text-white/60 mb-1">Email</label>
+      <input class="glass-input" formControlName="email" placeholder="name@example.com" />
+      @if ((f['email'].touched || submitted) && f['email'].errors) {
+      <div class="mt-1 text-xs text-error">
+        @if (f['email'].errors['required']) { Email is required. } @if (f['email'].errors['email'])
+        { Enter a valid email. }
+      </div>
+      }
+    </div>
+
+    <!-- Phone -->
+    <div>
+      <label class="block text-xs text-white/60 mb-1">Phone</label>
+      <input class="glass-input" formControlName="phone" placeholder="+880 17xx-xxxxxx" />
+      @if ((f['phone'].touched || submitted) && f['phone'].errors) {
+      <div class="mt-1 text-xs text-error">
+        @if (f['phone'].errors['required']) { Phone is required. } @if
+        (f['phone'].errors['pattern']) { Enter a valid phone number. }
+      </div>
+      }
+    </div>
+
+    <!-- Semester -->
+    <div>
+      <app-glass-select
+        label="Semester"
+        [options]="semesterOptions"
+        [value]="f['semester'].value"
+        (valueChange)="f['semester'].setValue($event)"
+      />
+    </div>
+
+    <!-- Department (GlassSelect -> updates reactive control) -->
+    <div class="sm:col-span-1">
+      <app-glass-select
+        label="Department"
+        [options]="departmentOptions"
+        [value]="f['department'].value"
+        (valueChange)="f['department'].setValue($event)"
+      />
+      @if ((f['department'].touched || submitted) && f['department'].errors) {
+      <div class="mt-1 text-xs text-error">Department is required.</div>
+      }
+    </div>
+
+    <!-- Status (GlassSelect -> updates reactive control) -->
+    <div class="sm:col-span-1">
+      <app-glass-select
+        label="Status"
+        [options]="statusOptions"
+        [value]="f['status'].value"
+        (valueChange)="f['status'].setValue($event)"
+      />
+    </div>
+
+    <!-- Avatar -->
+    <div class="sm:col-span-2">
+      <label class="block text-xs text-white/60 mb-1">Photo (optional)</label>
+
+      <div class="flex items-center gap-4">
+        <div class="avatar-picker">
+          @if (avatarPreviewUrl) {
+          <img [src]="avatarPreviewUrl" alt="Avatar preview" />
+          } @else {
+          <span>+</span>
+          }
+        </div>
+
+        <div class="flex flex-col gap-2">
+          <input
+            type="file"
+            accept="image/*"
+            capture="environment"
+            (change)="onAvatarSelected($event)"
+            class="hidden"
+            #avatarInput
+          />
+
+          <button
+            type="button"
+            class="nav-pill"
+            style="background: rgba(255, 255, 255, 0.1)"
+            (click)="avatarInput.click()"
+          >
+            Choose / Take Photo
+          </button>
+
+          @if (avatarError) {
+          <div class="text-xs text-error">{{ avatarError }}</div>
+          } @else {
+          <div class="text-xs text-white/45">JPG/PNG, max 2MB</div>
+          }
+        </div>
+      </div>
+    </div>
+
+    <!-- Submit -->
+    <div class="sm:col-span-2 mt-2 flex justify-end">
+      <button class="glass-btn" style="width: auto" type="submit">Save</button>
+    </div>
+  </form>
+</div>

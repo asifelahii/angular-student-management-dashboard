@@ -227,3 +227,15 @@
     transition: none;
   }
 }
+
+.gs {
+  position: relative;
+}
+
+.gs.is-open {
+  z-index: 80;
+}
+
+.gs__menu {
+  z-index: 90;
+}
