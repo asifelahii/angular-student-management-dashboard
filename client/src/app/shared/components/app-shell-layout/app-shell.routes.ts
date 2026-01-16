@@ -23,6 +23,16 @@ export const appShellRoutes: Routes = [
       ),
   },
 
+  // /students/:id/edit
+  {
+    path: 'students/:id/edit',
+    canActivate: [authGuard],
+    loadComponent: () =>
+      import('../../../features/students/pages/edit-student-page/edit-student-page').then(
+        (m) => m.EditStudentPage
+      ),
+  },
+
   // /students/:id
   {
     path: 'students/:id',
