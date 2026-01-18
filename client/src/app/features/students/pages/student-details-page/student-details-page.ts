@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute, RouterLink } from '@angular/router';
-import { catchError, of } from 'rxjs';
+import { ActivatedRoute, Router, RouterLink } from '@angular/router';
+import { catchError, finalize, of } from 'rxjs';
 
 import { StudentsService } from '../../services/students.service';
 import { Student } from '../../models/student/student.models';
@@ -14,52 +14,59 @@ import { Student } from '../../models/student/student.models';
 })
 export class StudentDetailsPage implements OnInit {
   isLoading = true;
+  error: string | null = null;
   student: Student | null = null;
 
-  constructor(private route: ActivatedRoute, private studentsService: StudentsService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private router: Router,
+    private studentsService: StudentsService,
+  ) {}
 
   ngOnInit(): void {
     const idParam = this.route.snapshot.paramMap.get('id');
     const id = Number(idParam);
 
-    // Guard: invalid id
+    // invalid id → treat as not found (no error)
     if (!idParam || Number.isNaN(id)) {
       this.isLoading = false;
       this.student = null;
+      this.error = null;
       return;
     }
 
-    // this.isLoading = true;
-    // this.studentsService.getStudentById(id).subscribe((s) => {
-    //   this.student = s;
-    //   this.isLoading = false;
-    // });
-
-     // this.studentsService
-    //   .getStudentById(id)
-    //   .pipe(
-    //     catchError((err) => {
-    //       console.error('Failed to load student', err);
-    //       return of(null);
-    //     })
-    //   )
-    //   .subscribe((s) => {
-    //     this.student = s;
-    //     this.isLoading = false;
-    //   });
-
     this.isLoading = true;
+    this.error = null;
 
-    this.studentsService.getStudentById(id).subscribe({
-      next: (s) => {
-        this.student = s; // can be Student or null
-        this.isLoading = false;
-      },
-      error: (err) => {
-        console.error('Failed to load student:', err);
-        this.student = null;
-        this.isLoading = false; // ✅ IMPORTANT: stop loading on error
-      },
-    });
+    this.studentsService
+      .getStudentById(id)
+      .pipe(
+        catchError((err) => {
+          console.error('Failed to load student:', err);
+          this.error = 'Failed to load student. Please try again.';
+          return of(null);
+        }),
+        finalize(() => {
+          this.isLoading = false;
+        }),
+      )
+      .subscribe((s) => {
+        this.student = s; // null = not found
+      });
+  }
+
+  onDelete() {
+    if (!this.student) return;
+
+    const ok = confirm(`Delete ${this.student.name}? This can't be undone (for now).`);
+    if (!ok) return;
+
+    const deleted = this.studentsService.deleteStudent(this.student.id);
+
+    if (deleted) {
+      this.router.navigateByUrl('/students');
+    } else {
+      this.error = 'Student could not be deleted. Please try again.';
+    }
   }
 }

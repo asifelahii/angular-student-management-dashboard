@@ -1,6 +1,6 @@
-<div class="glass-surface glass-noise glass-card">
-  <div class="flex items-start justify-between gap-4"></div>
+@let s = state$ | async;
 
+<div class="glass-surface glass-noise glass-card">
   <!-- Search - sort begin -->
   <div class="flex flex-col gap-4 sm:flex-row sm:items-end sm:justify-between">
     <!-- Title -->
@@ -33,10 +33,14 @@
         <button
           type="button"
           class="nav-pill"
-          (click)="sortDir = sortDir === 'asc' ? 'desc' : 'asc'"
+          (click)="toggleDir()"
           style="background: rgba(255, 255, 255, 0.1)"
         >
-          @if (sortDir === 'asc') { A–Z } @else { Z–A }
+          @if (sortDir === 'asc') {
+            A–Z
+          } @else {
+            Z–A
+          }
         </button>
       </div>
 
@@ -47,28 +51,62 @@
           Add Student
         </button>
       </div>
+
+      <!-- (Only for #11) Simulate error once -->
+      <div>
+        <label class="block text-xs text-white/60 mb-1">&nbsp;</label>
+        <button
+          type="button"
+          class="nav-pill"
+          style="background: rgba(255, 255, 255, 0.1)"
+          (click)="simulateErrorOnce()"
+        >
+          Simulate Error
+        </button>
+      </div>
     </div>
   </div>
   <!-- search - sort ends -->
 
-  <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 items-stretch">
-    @for (s of visibleStudents; track s.id) {
-    <app-student-card [student]="s" />
-    }
-  </div>
+  <!-- STATES -->
+  @if (!s || s.status === 'loading') {
+    <div class="mt-6 glass-surface glass-noise glass-card text-center">
+      <div class="text-lg font-semibold text-white/90">Loading students…</div>
+      <p class="mt-2 text-sm text-muted">Fetching data, please wait.</p>
+    </div>
+  } @else if (s.status === 'error') {
+    <div class="mt-6 glass-surface glass-noise glass-card text-center">
+      <div class="text-lg font-semibold text-white/90">Something went wrong</div>
+      <p class="mt-2 text-sm text-muted">{{ s.error }}</p>
 
-  @if (students.length === 0) {
-  <div class="mt-6 glass-surface glass-noise glass-card text-center">
-    <div class="text-lg font-semibold text-white/90">No students yet</div>
-    <p class="mt-2 text-sm text-muted">
-      Your student list is empty right now. Click
-      <span class="text-white/90 font-semibold">Add Student</span> to start.
-    </p>
-  </div>
+      <button
+        type="button"
+        class="nav-pill inline-block mt-4"
+        style="background: rgba(255, 255, 255, 0.1)"
+        (click)="retry()"
+      >
+        Retry
+      </button>
+    </div>
+  } @else if (students.length === 0) {
+    <div class="mt-6 glass-surface glass-noise glass-card text-center">
+      <div class="text-lg font-semibold text-white/90">No students yet</div>
+      <p class="mt-2 text-sm text-muted">
+        Your student list is empty right now. Click
+        <span class="text-white/90 font-semibold">Add Student</span> to start.
+      </p>
+    </div>
   } @else if (visibleStudents.length === 0) {
-  <div class="mt-6 glass-surface glass-noise glass-card text-center">
-    <div class="text-lg font-semibold text-white/90">No students found</div>
-    <p class="mt-2 text-sm text-muted">Try a different search term or change the sort.</p>
-  </div>
+    <div class="mt-6 glass-surface glass-noise glass-card text-center">
+      <div class="text-lg font-semibold text-white/90">No students found</div>
+      <p class="mt-2 text-sm text-muted">Try a different search term or change the sort.</p>
+    </div>
+  } @else {
+    <!-- Grid only when we have results -->
+    <div class="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3 items-stretch">
+      @for (st of visibleStudents; track st.id) {
+        <app-student-card [student]="st" />
+      }
+    </div>
   }
 </div>

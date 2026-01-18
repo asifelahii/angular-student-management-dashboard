@@ -3,6 +3,19 @@
     <div class="text-lg font-semibold text-white/90">Loading student…</div>
     <p class="mt-2 text-sm text-muted">Please wait a moment.</p>
   </div>
+} @else if (error) {
+  <div class="glass-surface glass-noise glass-card text-center">
+    <div class="text-lg font-semibold text-white/90">Something went wrong</div>
+    <p class="mt-2 text-sm text-muted">{{ error }}</p>
+
+    <a
+      routerLink="/students"
+      class="nav-pill inline-block mt-4"
+      style="background: rgba(255, 255, 255, 0.1)"
+    >
+      ← Back to Students
+    </a>
+  </div>
 } @else if (!student) {
   <div class="glass-surface glass-noise glass-card text-center">
     <div class="text-lg font-semibold text-white/90">Student not found</div>
@@ -19,30 +32,41 @@
 } @else {
   <div class="glass-surface glass-noise glass-card">
     <!-- Top bar -->
-    <div class="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-      <a
-        routerLink="/students"
-        class="nav-pill inline-flex items-center gap-2"
-        style="background: rgba(255, 255, 255, 0.1)"
-      >
-        ← Back to Students
-      </a>
+    <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+      <!-- Left: back -->
+      <div class="flex items-center gap-2">
+        <a
+          routerLink="/students"
+          class="nav-pill inline-flex items-center gap-2"
+          style="background: rgba(255, 255, 255, 0.1)"
+        >
+          ← Back to Students
+        </a>
+      </div>
 
-      <a
-        class="nav-pill"
-        [routerLink]="['/students', student.id, 'edit']"
-        style="background: rgba(255, 255, 255, 0.1)"
-      >
-        Edit
-      </a>
+      <!-- Middle: status (centered on desktop) -->
+      <div class="sm:flex-1 sm:flex sm:justify-center">
+        <div
+          class="status-chip"
+          [class.is-active]="student.status === 'Active'"
+          [class.is-graduated]="student.status === 'Graduated'"
+        >
+          <span class="status-dot"></span>
+          <span class="status-text">{{ student.status }}</span>
+        </div>
+      </div>
 
-      <div
-        class="status-chip"
-        [class.is-active]="student.status === 'Active'"
-        [class.is-graduated]="student.status === 'Graduated'"
-      >
-        <span class="status-dot"></span>
-        <span class="status-text">{{ student.status }}</span>
+      <!-- Right: actions -->
+      <div class="flex items-center gap-2 sm:justify-end">
+        <a
+          class="nav-pill"
+          [routerLink]="['/students', student.id, 'edit']"
+          style="background: rgba(255, 255, 255, 0.1)"
+        >
+          Edit
+        </a>
+
+        <button type="button" class="nav-pill nav-pill--danger" (click)="onDelete()">Delete</button>
       </div>
     </div>
 
