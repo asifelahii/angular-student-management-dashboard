@@ -9,6 +9,7 @@ A learning project to practice **professional SDLC**: Agile iteration, GitHub Is
 ## Preview
 
 > Add screenshots / GIFs here (recommended).
+
 - Place images in: `docs/screenshots/`
 - Place demo GIF in: `docs/demo.gif`
 
@@ -16,6 +17,7 @@ A learning project to practice **professional SDLC**: Agile iteration, GitHub Is
 ![Student Details](docs/screenshots/student-details.png)
 
 > Optional: Add a live link if you deploy later.
+
 - Live Demo: _TBD_
 
 ---
@@ -29,11 +31,13 @@ A learning project to practice **professional SDLC**: Agile iteration, GitHub Is
 ## Features (MVP)
 
 ### Auth (Mock)
+
 - `/login` page with **reactive form** + validation
 - Stores mock **user/token** in `localStorage`
 - Logout clears auth data and redirects to `/login`
 
 ### Students
+
 - Students list page (cards)
   - Shows: **name, email, department, status**
   - Click a card → `/students/:id`
@@ -57,6 +61,7 @@ A learning project to practice **professional SDLC**: Agile iteration, GitHub Is
   - Redirects back to `/students`
 
 ### UX States
+
 - Loading state (mock delay)
 - Empty state
 - Error state (simulated once + retry)
@@ -85,3 +90,4 @@ client/
       shared/
         components/         # reusable UI components (header, cards, select, etc.)
         ui.scss             # liquid-glass primitives
+```
