@@ -8,17 +8,9 @@ A learning project to practice **professional SDLC**: Agile iteration, GitHub Is
 
 ## Preview
 
-> Add screenshots / GIFs here (recommended).
-
-- Place images in: `docs/screenshots/`
-- Place demo GIF in: `docs/demo.gif`
-
 ![Students List](docs/screenshots/students-list.png)
+
 ![Student Details](docs/screenshots/student-details.png)
-
-> Optional: Add a live link if you deploy later.
-
-- Live Demo: _TBD_
 
 ---
 
