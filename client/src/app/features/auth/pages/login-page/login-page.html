@@ -23,21 +23,21 @@
           type="email"
           formControlName="email"
           class="glass-input"
-          placeholder="abdullah@example.com"
+          placeholder="student@demo.com"
           autocomplete="username"
         />
 
-        @let emailControl = form.get('email'); @if (emailControl?.touched && emailControl?.invalid)
-        {
-        <div class="text-error text-sm">
-          @if(emailControl?.errors?.['required']) {
-          <div>Email is required.</div>
-          } @else if(emailControl?.errors?.['email']) {
-          <div>Please enter a valid email address.</div>
-          } @else if(emailControl?.errors?.['pattern']) {
-          <div>Email format is incorrect.</div>
-          }
-        </div>
+        @let emailControl = form.get('email');
+        @if (emailControl?.touched && emailControl?.invalid) {
+          <div class="text-error text-sm">
+            @if (emailControl?.errors?.['required']) {
+              <div>Email is required.</div>
+            } @else if (emailControl?.errors?.['email']) {
+              <div>Please enter a valid email address.</div>
+            } @else if (emailControl?.errors?.['pattern']) {
+              <div>Email format is incorrect.</div>
+            }
+          </div>
         }
       </div>
 
@@ -48,23 +48,25 @@
           type="password"
           formControlName="password"
           class="glass-input"
-          placeholder="Enter your password"
+          placeholder="student123"
           autocomplete="current-password"
         />
 
-        @let passwordControl = form.get('password'); @if (passwordControl?.touched &&
-        passwordControl?.invalid) {
-        <div>
-          @if(passwordControl?.errors?.['required']){
-          <div>Password is required.</div>
-          } @else if(passwordControl?.errors?.['minlength']){
-          <div class="text-error">Password must be at least 6 characters long.</div>
-          } @else if(passwordControl?.errors?.['maxlength']){
-          <div class="text-error">Password cannot exceed 12 characters.</div>
-          } @else if(passwordControl?.errors?.['pattern']){
-          <div class="text-error">Password must contain at least one letter and one number.</div>
-          }
-        </div>
+        @let passwordControl = form.get('password');
+        @if (passwordControl?.touched && passwordControl?.invalid) {
+          <div>
+            @if (passwordControl?.errors?.['required']) {
+              <div>Password is required.</div>
+            } @else if (passwordControl?.errors?.['minlength']) {
+              <div class="text-error">Password must be at least 6 characters long.</div>
+            } @else if (passwordControl?.errors?.['maxlength']) {
+              <div class="text-error">Password cannot exceed 12 characters.</div>
+            } @else if (passwordControl?.errors?.['pattern']) {
+              <div class="text-error">
+                Password must contain at least one letter and one number.
+              </div>
+            }
+          </div>
         }
       </div>
       <button type="submit" [disabled]="form.invalid" class="glass-btn">Sign in</button>
