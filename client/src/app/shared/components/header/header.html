@@ -11,33 +11,74 @@
           (click)="closeMenu()"
           class="flex items-center gap-3 select-none no-underline"
         >
-          <div class="glass-icon h-9 w-9 rounded-xl border border-white/15 bg-white/10"></div>
+          <!-- <div class="glass-icon h-9 w-9 rounded-xl border border-white/15 bg-white/10"></div> -->
+
+          <div
+            class="glass-icon h-9 w-9 rounded-xl border border-white/15 bg-white/10 grid place-items-center overflow-hidden"
+            aria-hidden="true"
+          >
+            <!-- Simple “Student Dashboard” mark (book + sparkle) -->
+            <svg
+              class="h-5 w-5 text-white/90"
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 24 24"
+              fill="none"
+            >
+              <!-- book -->
+              <path
+                d="M6 5.5c0-1.1.9-2 2-2h9c.55 0 1 .45 1 1V19c0 .55-.45 1-1 1H8c-1.1 0-2-.9-2-2V5.5Z"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linejoin="round"
+                opacity=".95"
+              />
+              <!-- spine -->
+              <path
+                d="M9 3.5V20"
+                stroke="currentColor"
+                stroke-width="1.8"
+                stroke-linecap="round"
+                opacity=".55"
+              />
+              <!-- sparkle -->
+              <path
+                d="M18.5 7.2l.35 1.05c.07.2.23.36.43.43l1.05.35-1.05.35c-.2.07-.36.23-.43.43l-.35 1.05-.35-1.05a.7.7 0 0 0-.43-.43l-1.05-.35 1.05-.35c.2-.07.36-.23.43-.43l.35-1.05Z"
+                fill="currentColor"
+                opacity=".9"
+              />
+            </svg>
+          </div>
 
           <div class="leading-tight">
-            <div class="font-semibold tracking-tight text-white/95">Student Dashboard</div>
-            <div class="text-xs text-white/60">Learning build</div>
+            <div class="font-semibold tracking-tight text-white/95">SMD</div>
+            <div class="text-xs text-white/60">Student Management Dashboard</div>
           </div>
         </a>
+
+        <!--  -->
+
+        <!--  -->
 
         <!-- Desktop Nav -->
         <nav class="hidden sm:flex items-center gap-1">
           @for (item of navItems; track item.href) {
-          <a
-            [routerLink]="item.href"
-            routerLinkActive="nav-pill--active"
-            [routerLinkActiveOptions]="{ exact: item.exact ?? false }"
-            class="nav-pill text-sm whitespace-nowrap no-underline"
-          >
-            {{ item.label }}
-          </a>
-          } @if (authService.isLoggedIn()) {
-          <button
-            type="button"
-            (click)="onLogout()"
-            class="nav-pill text-sm whitespace-nowrap no-underline"
-          >
-            Logout
-          </button>
+            <a
+              [routerLink]="item.href"
+              routerLinkActive="nav-pill--active"
+              [routerLinkActiveOptions]="{ exact: item.exact ?? false }"
+              class="nav-pill text-sm whitespace-nowrap no-underline"
+            >
+              {{ item.label }}
+            </a>
+          }
+          @if (authService.isLoggedIn()) {
+            <button
+              type="button"
+              (click)="onLogout()"
+              class="nav-pill text-sm whitespace-nowrap no-underline"
+            >
+              Logout
+            </button>
           }
 
           <!-- Optional: small “status dot” to feel premium -->
@@ -62,35 +103,36 @@
           >
             <!-- icon -->
             @if (!isMenuOpen) {
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              fill="none"
-            >
-              <path
-                d="M4 6h16M4 12h16M4 18h16"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-              />
-            </svg>
-            } @if (isMenuOpen) {
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="18"
-              height="18"
-              viewBox="0 0 24 24"
-              fill="none"
-            >
-              <path
-                d="M6 6l12 12M18 6L6 18"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-              />
-            </svg>
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <path
+                  d="M4 6h16M4 12h16M4 18h16"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+              </svg>
+            }
+            @if (isMenuOpen) {
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="18"
+                height="18"
+                viewBox="0 0 24 24"
+                fill="none"
+              >
+                <path
+                  d="M6 6l12 12M18 6L6 18"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                />
+              </svg>
             }
           </button>
         </div>
@@ -98,30 +140,30 @@
 
       <!-- Mobile Nav Panel -->
       @if (isMenuOpen) {
-      <div class="sm:hidden px-3 pb-3">
-        <div class="rounded-xl border border-white/12 bg-white/8 backdrop-blur-xl p-2">
-          @if (authService.isLoggedIn()) {
-          <button
-            type="button"
-            (click)="onLogout()"
-            class="block w-full text-left nav-pill rounded-lg border border-transparent px-3 py-2 text-sm text-white/85 hover:bg-white/10 transition"
-          >
-            Logout
-          </button>
-          } @for (item of navItems; track item.href) {
-
-          <a
-            [routerLink]="item.href"
-            (click)="closeMenu()"
-            routerLinkActive="nav-pill--active"
-            [routerLinkActiveOptions]="{ exact: item.exact ?? false }"
-            class="block nav-pill rounded-lg border border-transparent px-3 py-2 text-sm text-white/85 hover:bg-white/10 transition no-underline"
-          >
-            {{ item.label }}
-          </a>
-          }
+        <div class="sm:hidden px-3 pb-3">
+          <div class="rounded-xl border border-white/12 bg-white/8 backdrop-blur-xl p-2">
+            @if (authService.isLoggedIn()) {
+              <button
+                type="button"
+                (click)="onLogout()"
+                class="block w-full text-left nav-pill rounded-lg border border-transparent px-3 py-2 text-sm text-white/85 hover:bg-white/10 transition"
+              >
+                Logout
+              </button>
+            }
+            @for (item of navItems; track item.href) {
+              <a
+                [routerLink]="item.href"
+                (click)="closeMenu()"
+                routerLinkActive="nav-pill--active"
+                [routerLinkActiveOptions]="{ exact: item.exact ?? false }"
+                class="block nav-pill rounded-lg border border-transparent px-3 py-2 text-sm text-white/85 hover:bg-white/10 transition no-underline"
+              >
+                {{ item.label }}
+              </a>
+            }
+          </div>
         </div>
-      </div>
       }
     </div>
   </div>

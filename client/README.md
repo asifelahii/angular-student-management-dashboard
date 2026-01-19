@@ -1,59 +1,87 @@
-# Client
+# Angular Student Management Dashboard
 
-This project was generated using [Angular CLI](https://github.com/angular/angular-cli) version 21.0.4.
+A learning project to practice **professional SDLC**: Agile iteration, GitHub Issues, PR workflow, and Angular best practices — built with a **Liquid Glass UI** style (SCSS + Tailwind utilities).
 
-## Development server
+> Status: MVP v0.1 — routing + mock auth + students (list/details/add/edit/delete) + search/sort + UX states
 
-To start a local development server, run:
+---
 
-```bash
-ng serve
-```
+## Preview
 
-Once the server is running, open your browser and navigate to `http://localhost:4200/`. The application will automatically reload whenever you modify any of the source files.
+> Add screenshots / GIFs here (recommended).
+- Place images in: `docs/screenshots/`
+- Place demo GIF in: `docs/demo.gif`
 
-## Code scaffolding
+![Students List](docs/screenshots/students-list.png)
+![Student Details](docs/screenshots/student-details.png)
 
-Angular CLI includes powerful code scaffolding tools. To generate a new component, run:
+> Optional: Add a live link if you deploy later.
+- Live Demo: _TBD_
 
-```bash
-ng generate component component-name
-```
+---
 
-For a complete list of available schematics (such as `components`, `directives`, or `pipes`), run:
+## Apps
 
-```bash
-ng generate --help
-```
+- `client/` — Angular web app
 
-## Building
+---
 
-To build the project run:
+## Features (MVP)
 
-```bash
-ng build
-```
+### Auth (Mock)
+- `/login` page with **reactive form** + validation
+- Stores mock **user/token** in `localStorage`
+- Logout clears auth data and redirects to `/login`
 
-This will compile your project and store the build artifacts in the `dist/` directory. By default, the production build optimizes your application for performance and speed.
+### Students
+- Students list page (cards)
+  - Shows: **name, email, department, status**
+  - Click a card → `/students/:id`
+- Search + Sort (works together)
+  - Search by **name or email** (case-insensitive)
+  - Sort by **name/department/semester/status** (A–Z / Z–A)
+- Student details page
+  - Displays key fields: email, phone, department, semester, status
+  - “Student not found” state + Back link
+- Add Student (frontend-only)
+  - Reactive form + validation
+  - Adds student to **in-memory** service state
+  - Redirects to `/students`
+- Edit Student
+  - Prefills form with existing data
+  - Updates student in service state
+  - Redirects to `/students/:id`
+- Delete Student
+  - Confirm modal
+  - Deletes from service state + updates list
+  - Redirects back to `/students`
 
-## Running unit tests
+### UX States
+- Loading state (mock delay)
+- Empty state
+- Error state (simulated once + retry)
 
-To execute unit tests with the [Vitest](https://vitest.dev/) test runner, use the following command:
+---
 
-```bash
-ng test
-```
+## Tech Stack
 
-## Running end-to-end tests
+- Angular (standalone components)
+- Tailwind CSS (utility classes)
+- SCSS (global UI primitives + component styling)
+- RxJS (service state, loading/error handling)
 
-For end-to-end (e2e) testing, run:
+---
 
-```bash
-ng e2e
-```
+## Project Structure (high-level)
 
-Angular CLI does not come with an end-to-end testing framework by default. You can choose one that suits your needs.
-
-## Additional Resources
-
-For more information on using the Angular CLI, including detailed command references, visit the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+```text
+client/
+  src/
+    app/
+      core/                 # guards, interceptors, core services
+      features/
+        auth/               # login + auth service
+        students/           # list/details/add/edit + students service
+      shared/
+        components/         # reusable UI components (header, cards, select, etc.)
+        ui.scss             # liquid-glass primitives
