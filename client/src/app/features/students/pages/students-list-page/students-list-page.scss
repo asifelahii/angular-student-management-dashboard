@@ -1,0 +1,116 @@
+/* ---------------------------------------------------------
+   Students header alignment fix (Search/Sort/Order/Buttons)
+   ✅ No template changes needed
+   --------------------------------------------------------- */
+
+/* Standard control height for the whole header row */
+:host {
+  --ctl-h: 46px; /* 44–48px looks best for this theme */
+}
+
+/* Right-side controls container */
+.glass-card > .flex.flex-col.gap-4.sm\:flex-row.sm\:items-end.sm\:justify-between {
+  gap: 16px; /* little more breathing room */
+}
+
+/* The controls row (right section) */
+.glass-card
+  > .flex.flex-col.gap-4.sm\:flex-row.sm\:items-end.sm\:justify-between
+  > .flex.flex-col.gap-2.sm\:flex-row.sm\:items-center {
+  gap: 12px;
+  align-items: flex-end; /* keep labels aligned */
+}
+
+/* Each control block: (label + control) */
+.glass-card
+  > .flex.flex-col.gap-4.sm\:flex-row.sm\:items-end.sm\:justify-between
+  > .flex.flex-col.gap-2.sm\:flex-row.sm\:items-center
+  > div {
+  min-width: 0;
+}
+
+/* Make Search + Sort blocks a bit wider on desktop so it doesn't feel squished */
+@media (min-width: 1024px) {
+  .glass-card
+    > .flex.flex-col.gap-4.sm\:flex-row.sm\:items-end.sm\:justify-between
+    > .flex.flex-col.gap-2.sm\:flex-row.sm\:items-center
+    > .sm\:w-72 {
+    width: 320px !important;
+  }
+
+  .glass-card
+    > .flex.flex-col.gap-4.sm\:flex-row.sm\:items-end.sm\:justify-between
+    > .flex.flex-col.gap-2.sm\:flex-row.sm\:items-center
+    > .sm\:w-52 {
+    width: 240px !important;
+  }
+}
+
+/* Make all controls share the same height */
+.glass-card input.glass-input {
+  min-height: var(--ctl-h);
+  height: var(--ctl-h);
+}
+
+/* Your nav-pill buttons used as controls */
+.glass-card button.nav-pill {
+  min-height: var(--ctl-h);
+  height: var(--ctl-h);
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 14px;
+  white-space: nowrap; /* prevents "stacked" / narrow feel */
+}
+
+/* Add Student uses glass-btn but you set width:auto inline; keep height consistent */
+.glass-card button.glass-btn {
+  min-height: var(--ctl-h);
+  height: var(--ctl-h);
+  width: auto;
+  padding: 0 14px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  white-space: nowrap;
+}
+
+/* If your GlassSelect trigger is inside shadow DOM? (it isn't) 
+   This targets your component class selectors. Adjust if your trigger class differs. */
+app-glass-select .gs__trigger {
+  min-height: var(--ctl-h);
+  height: var(--ctl-h);
+  display: flex;
+  align-items: center;
+}
+
+/* Mobile: avoid squeezed row by letting controls wrap nicely */
+@media (max-width: 639px) {
+  .glass-card
+    > .flex.flex-col.gap-4.sm\:flex-row.sm\:items-end.sm\:justify-between
+    > .flex.flex-col.gap-2.sm\:flex-row.sm\:items-center {
+    gap: 14px;
+  }
+
+  /* Ensure each block takes full width so it doesn't look cramped */
+  .glass-card
+    > .flex.flex-col.gap-4.sm\:flex-row.sm\:items-end.sm\:justify-between
+    > .flex.flex-col.gap-2.sm\:flex-row.sm\:items-center
+    > div {
+    width: 100%;
+  }
+
+  /* Buttons full width on mobile looks more “iOS” */
+  .glass-card button.nav-pill,
+  .glass-card button.glass-btn {
+    width: 100%;
+  }
+}
+
+/* Make the Order pill look more like a proper control */
+.glass-card label + button.nav-pill {
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  box-shadow:
+    0 10px 24px rgba(0, 0, 0, 0.25),
+    inset 0 1px 0 rgba(255, 255, 255, 0.08);
+}

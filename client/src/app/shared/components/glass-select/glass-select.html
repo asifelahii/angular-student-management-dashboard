@@ -1,7 +1,7 @@
 <div class="gs" [class.is-open]="open">
-  @if (label) {
+  <!-- @if (label) {
   <label class="gs__label">{{ label }}</label>
-  }
+  } -->
 
   <!-- Trigger -->
   <button
@@ -18,20 +18,20 @@
 
   <!-- Menu -->
   @if (open) {
-  <div class="gs__menu glass-surface glass-noise " role="listbox">
-    @for (opt of options; track opt.value) {
-    <button
-      type="button"
-      class="gs__option"
-      [class.is-selected]="opt.value === value"
-      (click)="select(opt)"
-      role="option"
-      [attr.aria-selected]="opt.value === value"
-    >
-      <span class="gs__dot"></span>
-      <span class="gs__opt-label">{{ opt.label }}</span>
-    </button>
-    }
-  </div>
+    <div class="gs__menu glass-surface glass-noise" role="listbox">
+      @for (opt of options; track opt.value) {
+        <button
+          type="button"
+          class="gs__option"
+          [class.is-selected]="opt.value === value"
+          (click)="select(opt)"
+          role="option"
+          [attr.aria-selected]="opt.value === value"
+        >
+          <span class="gs__dot"></span>
+          <span class="gs__opt-label">{{ opt.label }}</span>
+        </button>
+      }
+    </div>
   }
 </div>

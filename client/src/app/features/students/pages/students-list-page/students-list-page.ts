@@ -3,7 +3,6 @@ import { RouterModule, Router } from '@angular/router';
 import { FormsModule } from '@angular/forms';
 import { AsyncPipe } from '@angular/common';
 
-
 import { Student } from '../../models/student/student.models';
 import { StudentsService } from '../../services/students.service';
 import { StudentCard } from '../../../../shared/components/student-card/student-card';
@@ -105,5 +104,9 @@ export class StudentsListPage implements OnInit {
   simulateErrorOnce() {
     this.studentsService.failNextLoad();
     this.studentsService.loadStudents(this.limit);
+  }
+
+  setSortDir(dir: 'asc' | 'desc') {
+    this.sortDir = dir;
   }
 }
