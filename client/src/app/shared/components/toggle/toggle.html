@@ -1,0 +1,31 @@
+<div class="gst">
+  @if (label) {
+    <label class="gst__label">{{ label }}</label>
+  }
+
+  <div class="gst__wrap" role="radiogroup" [attr.aria-label]="label || 'Order'">
+    <button
+      type="button"
+      class="gst__btn"
+      role="radio"
+      [attr.aria-checked]="value === 'asc'"
+      [class.is-active]="value === 'asc'"
+      (click)="setValue('asc')"
+    >
+      <span class="gst__txt">{{ leftText }}</span>
+    </button>
+
+    <button
+      type="button"
+      class="gst__btn"
+      role="radio"
+      [attr.aria-checked]="value === 'desc'"
+      [class.is-active]="value === 'desc'"
+      (click)="setValue('desc')"
+    >
+      <span class="gst__txt">{{ rightText }}</span>
+    </button>
+
+    <span class="gst__glow" aria-hidden="true"></span>
+  </div>
+</div>

@@ -7,12 +7,43 @@
     <div class="flex flex-col gap-2 sm:flex-row sm:items-center flex-1 min-w-0">
       <!-- Search -->
       <div class="w-full sm:w-72">
-        <input
-          class="glass-input h-11"
-          type="text"
-          placeholder="Search name or email…"
-          [(ngModel)]="query"
-        />
+        <div class="search-wrap">
+          <span class="search-icon" aria-hidden="true">
+            <svg class="ui-icon ui-icon--search" viewBox="0 0 24 24" fill="none">
+              <!-- magnifier -->
+              <circle
+                cx="11"
+                cy="11"
+                r="6.2"
+                stroke="currentColor"
+                stroke-width="1.9"
+                opacity="0.92"
+              />
+              <path
+                d="M16.2 16.2L20 20"
+                stroke="currentColor"
+                stroke-width="1.9"
+                stroke-linecap="round"
+                opacity="0.92"
+              />
+
+              <!-- sparkle (stronger, plus glow via CSS) -->
+              <path
+                class="ui-icon__sparkle"
+                d="M17.8 6.1l.6 1.35 1.35.6-1.35.6-.6 1.35-.6-1.35-1.35-.6 1.35-.6.6-1.35z"
+                fill="currentColor"
+                opacity="0.95"
+              />
+            </svg>
+          </span>
+
+          <input
+            class="glass-input search-input"
+            type="text"
+            placeholder="Search name or email…"
+            [(ngModel)]="query"
+          />
+        </div>
       </div>
 
       <!-- Sort by -->
@@ -21,20 +52,61 @@
       </div>
 
       <!-- Sort direction -->
-      <div class="shrink-0">
-        <button
-          type="button"
-          class="nav-pill h-11 inline-flex items-center justify-center px-4"
-          (click)="toggleDir()"
-          style="background: rgba(255, 255, 255, 0.1)"
-        >
+
+      <button
+        type="button"
+        class="nav-pill"
+        [class.is-desc]="sortDir === 'desc'"
+        style="background: rgba(255, 255, 255, 0.1)"
+        (click)="toggleDir()"
+      >
+        <span class="inline-flex items-center gap-2">
+          <svg class="ui-icon ui-icon--sort" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path
+              d="M8 17V7"
+              stroke="currentColor"
+              stroke-width="1.7"
+              stroke-linecap="round"
+              opacity=".85"
+            />
+            <path
+              d="M5.8 9.2L8 7l2.2 2.2"
+              stroke="currentColor"
+              stroke-width="1.7"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              opacity=".85"
+            />
+            <path
+              d="M16 7v10"
+              stroke="currentColor"
+              stroke-width="1.7"
+              stroke-linecap="round"
+              opacity=".55"
+            />
+            <path
+              d="M13.8 14.8L16 17l2.2-2.2"
+              stroke="currentColor"
+              stroke-width="1.7"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              opacity=".55"
+            />
+            <path
+              class="ui-icon__sparkle"
+              d="M18.4 5.6l.5 1.2 1.2.5-1.2.5-.5 1.2-.5-1.2-1.2-.5 1.2-.5.5-1.2z"
+              fill="currentColor"
+              opacity=".35"
+            />
+          </svg>
+
           @if (sortDir === 'asc') {
             A–Z
           } @else {
             Z–A
           }
-        </button>
-      </div>
+        </span>
+      </button>
     </div>
 
     <!-- RIGHT: Buttons -->
@@ -45,7 +117,22 @@
         style="width: auto"
         routerLink="/students/add"
       >
-        Add Student
+        <svg
+          class="ui-icon ui-icon--sparkle-plus"
+          viewBox="0 0 24 24"
+          fill="none"
+          aria-hidden="true"
+        >
+          <path d="M12 7v10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+          <path d="M7 12h10" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+          <path
+            class="ui-icon__sparkle"
+            d="M18.2 6.2l.7 1.8 1.9.7-1.9.7-.7 1.9-.7-1.9-1.9-.7 1.9-.7.7-1.8z"
+            fill="currentColor"
+            opacity=".55"
+          />
+        </svg>
+        Add
       </button>
 
       <button
@@ -55,6 +142,18 @@
         (click)="simulateErrorOnce()"
       >
         Simulate Error
+        <!-- <span class="pulse-dot"></span> -->
+        <svg class="ui-icon" viewBox="0 0 24 24" fill="none">
+          <path
+            d="M12 3l10 18H2L12 3z"
+            stroke="currentColor"
+            stroke-width="1.8"
+            stroke-linejoin="round"
+            opacity="0.9"
+          />
+          <path d="M12 9v5" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" />
+          <path d="M12 17h.01" stroke="currentColor" stroke-width="2.8" stroke-linecap="round" />
+        </svg>
       </button>
     </div>
   </div>

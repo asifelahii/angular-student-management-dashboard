@@ -114,3 +114,67 @@ app-glass-select .gs__trigger {
     0 10px 24px rgba(0, 0, 0, 0.25),
     inset 0 1px 0 rgba(255, 255, 255, 0.08);
 }
+/* Search input with premium icon */
+.search-wrap {
+  position: relative;
+}
+
+.search-input {
+  padding-left: 44px; /* space for icon */
+  height: 46px; /* consistent control height */
+}
+
+/* Icon positioning */
+.search-icon {
+  position: absolute;
+  left: 14px;
+  top: 50%;
+  transform: translateY(-50%);
+  pointer-events: none;
+  display: grid;
+  place-items: center;
+}
+
+.ui-icon--search {
+  width: 18px;
+  height: 18px;
+  color: rgba(255, 255, 255, 0.72);
+
+  /* makes it feel “premium” on glass */
+  filter: drop-shadow(0 10px 22px rgba(0, 0, 0, 0.35))
+    drop-shadow(0 0 10px rgba(255, 255, 255, 0.16));
+}
+
+/* Make the sparkle pop */
+.ui-icon--search .ui-icon__sparkle {
+  transform-origin: 18px 7px;
+}
+
+/* Focus: glow + sparkle becomes visible */
+.search-wrap:focus-within .ui-icon--search {
+  color: rgba(255, 255, 255, 0.92);
+  filter: drop-shadow(0 12px 26px rgba(0, 0, 0, 0.45))
+    drop-shadow(0 0 14px rgba(255, 255, 255, 0.28));
+}
+
+/* Subtle twinkle on focus (not annoying) */
+@keyframes ui-twinkle {
+  0%,
+  100% {
+    transform: rotate(0deg) scale(1);
+    opacity: 0.95;
+  }
+  50% {
+    transform: rotate(6deg) scale(1.08);
+    opacity: 1;
+  }
+}
+
+.search-wrap:focus-within .ui-icon--search .ui-icon__sparkle {
+  animation: ui-twinkle 900ms ease-in-out infinite;
+}
+
+/* Optional: on hover also slightly highlight icon */
+.search-wrap:hover .ui-icon--search {
+  color: rgba(255, 255, 255, 0.84);
+}
