@@ -5,6 +5,7 @@ export type Student = {
   name: string | null;
   email: string;
   phone: string;
+  hnbr?: string;
   department: string;
   semester: number;
   status: StudentStatus;

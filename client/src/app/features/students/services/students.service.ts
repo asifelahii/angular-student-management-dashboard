@@ -72,6 +72,7 @@ export class StudentsService {
               name: user.name,
               email: user.email,
               phone: user.phone,
+              hnbr: String(100000 + user.id),
               department: this.departments[user.id % this.departments.length],
               semester: (user.id % 12) + 1,
               status: this.studentStatus[user.id % this.studentStatus.length],
@@ -174,11 +175,19 @@ export class StudentsService {
     const list = this.studentsCache ?? [];
 
     const nextId = list.length > 0 ? Math.max(...list.map((s) => s.id)) + 1 : 1;
-    const newStudent: Student = { id: nextId, ...payload };
+
+    // ✅ Build the student in a safe order:
+    // - spread payload first
+    // - then set id + hnbr to guarantee they exist even if payload has weird values
+    const newStudent: Student = {
+      ...payload,
+      id: nextId,
+      hnbr: payload.hnbr?.trim() ? payload.hnbr.trim() : String(100000 + nextId),
+    };
 
     this.studentsCache = [newStudent, ...list];
 
-    // If list page is showing state, keep it updated (show first 50 by default)
+    // Keep list page state updated (e.g. first 50)
     this.refreshStateFromCache(50);
 
     return newStudent;
@@ -187,10 +196,18 @@ export class StudentsService {
   updateStudent(id: number, changes: Omit<Student, 'id'>): Student | null {
     if (!this.studentsCache) return null;
 
-    const exists = this.studentsCache.some((s) => s.id === id);
-    if (!exists) return null;
+    const existing = this.studentsCache.find((s) => s.id === id);
+    if (!existing) return null;
 
-    const updated: Student = { id, ...changes };
+    // ✅ Merge instead of replace:
+    // This prevents losing fields like hnbr/avatarUrl when edit form doesn't send them.
+    const updated: Student = {
+      ...existing,
+      ...changes,
+      id, // force correct id
+      hnbr: changes.hnbr?.trim() ? changes.hnbr.trim() : (existing.hnbr ?? String(100000 + id)),
+    };
+
     this.studentsCache = this.studentsCache.map((s) => (s.id === id ? updated : s));
 
     this.refreshStateFromCache(50);
