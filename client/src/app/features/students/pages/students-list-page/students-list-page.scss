@@ -178,3 +178,20 @@ app-glass-select .gs__trigger {
 .search-wrap:hover .ui-icon--search {
   color: rgba(255, 255, 255, 0.84);
 }
+
+.order-icon-btn {
+  min-width: 46px;
+  height: 46px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 0 14px; // keeps pill look
+}
+
+.ui-icon--sort {
+  transition: transform 180ms ease;
+}
+
+.ui-icon--sort.is-desc {
+  transform: rotate(180deg);
+}
