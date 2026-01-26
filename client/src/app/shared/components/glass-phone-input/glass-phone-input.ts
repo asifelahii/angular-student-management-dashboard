@@ -1,4 +1,5 @@
 import { Component, Input, forwardRef, HostListener } from '@angular/core';
+import { CommonModule, NgClass } from '@angular/common';
 import {
   ControlValueAccessor,
   NG_VALUE_ACCESSOR,
@@ -10,15 +11,14 @@ import {
 
 import { PhoneCountry, PHONE_COUNTRIES } from './../../data/phone-countries';
 
-
-
 function digitsOnly(v: string) {
-  return (v ?? '').replace(/\D/g, '');
+  return (v || '').replace(/\D/g, '');
 }
 
 @Component({
   selector: 'app-glass-phone-input',
   standalone: true,
+  imports: [NgClass],
   templateUrl: './glass-phone-input.html',
   styleUrls: ['./glass-phone-input.scss'],
   providers: [
@@ -53,15 +53,28 @@ export class GlassPhoneInput implements ControlValueAccessor, Validator {
   // Validator change hook
   private onValidatorChange: () => void = () => {};
 
+  flagFor(iso2: string): string {
+  // expects "BD", "US", etc.
+  const cc = (iso2 || '').toUpperCase();
+  if (cc.length !== 2) return '🏳️';
+  const A = 0x1f1e6; // regional indicator A
+  const code0 = cc.charCodeAt(0) - 65 + A;
+  const code1 = cc.charCodeAt(1) - 65 + A;
+  return String.fromCodePoint(code0, code1);
+}
+
+get selectedText() {
+  // show: 🇧🇩 +880
+  return `${this.flagFor(this.selected.iso2)} +${digitsOnly(this.selected.dialCode)}`;
+}
   // ---- UI helpers ----
-  get selectedText() {
-    return `${this.selected.dialCode} ${this.selected.dialCode}`;
-  }
+  // get selectedText() {
+  //   return `${this.selected.name} +${this.selected.dialCode}`;
+  // }
 
   get placeholder() {
-    return this.selected.iso2 === 'BD'
-      ? `e.g. ${this.selected.example}`
-      : `e.g. ${this.selected.example}`;
+    const example = this.selected.example || '...';
+    return `e.g. ${example}`;
   }
 
   get showError() {
@@ -86,7 +99,7 @@ export class GlassPhoneInput implements ControlValueAccessor, Validator {
   }
 
   onInput(ev: Event) {
-    const raw = (ev.target as HTMLInputElement).value ?? '';
+    const raw = (ev.target as HTMLInputElement).value || '';
     this.national = digitsOnly(raw);
 
     // country-specific cleanup
@@ -121,7 +134,7 @@ export class GlassPhoneInput implements ControlValueAccessor, Validator {
 
   // ---- CVA ----
   writeValue(value: string | null): void {
-    const v = (value ?? '').trim();
+    const v = (value || '').trim();
 
     if (!v) {
       this.national = '';
@@ -159,7 +172,7 @@ export class GlassPhoneInput implements ControlValueAccessor, Validator {
 
   // ---- Validator ----
   validate(control: AbstractControl): ValidationErrors | null {
-    const v = (control.value ?? '').toString().trim();
+    const v = (control.value || '').toString().trim();
     if (!v) return null; // required handled outside
 
     const e164 = v.startsWith('+') ? '+' + digitsOnly(v) : '+' + digitsOnly(v);

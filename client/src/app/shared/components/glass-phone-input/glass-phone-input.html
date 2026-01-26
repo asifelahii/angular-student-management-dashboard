@@ -15,17 +15,15 @@
       [attr.aria-label]="'Select country code'"
       title="Select country code"
     >
-      <!-- ✅ Flag (SVG via flag-icons) -->
+      <!-- Flag (SVG via flag-icons) -->
       <span
         class="gp__flag fi"
-        [ngClass]="'fi-' + (selected?.iso2 || selected?.key || 'bd').toLowerCase()"
+        [ngClass]="'fi-' + (selected.iso2 || '').toLowerCase()"
         aria-hidden="true"
       ></span>
 
-      <!-- ✅ Dial code -->
-      <span class="gp__countryText">
-        +{{ selected?.dialCode ?? selected?.dial?.replace('+', '') ?? '' }}
-      </span>
+      <!-- Dial code -->
+      <span class="gp__countryText"> +{{ selected.dialCode }} </span>
 
       <span class="gp__chev" aria-hidden="true"></span>
     </button>
@@ -46,25 +44,25 @@
   <!-- Menu -->
   @if (open) {
     <div class="gp__menu glass-surface glass-noise" role="listbox">
-      @for (c of countries; track c.iso2 ?? c.key) {
+      @for (c of countries; track c.iso2) {
         <button
           type="button"
           class="gp__option"
           (click)="selectCountry(c)"
           role="option"
-          [attr.aria-selected]="(c.iso2 ?? c.key) === (selected?.iso2 ?? selected?.key)"
+          [attr.aria-selected]="c.iso2 === selected.iso2"
         >
-          <!-- ✅ Flag -->
+          <!-- Flag -->
           <span
             class="gp__optFlag fi"
-            [ngClass]="'fi-' + (c.iso2 ?? c.key).toLowerCase()"
+            [ngClass]="'fi-' + c.iso2.toLowerCase()"
             aria-hidden="true"
           ></span>
 
           <span class="gp__optLabel">{{ c.name }}</span>
 
-          <!-- ✅ Dial -->
-          <span class="gp__optDial"> +{{ c.dialCode ?? c.dial?.replace('+', '') ?? '' }} </span>
+          <!-- Dial -->
+          <span class="gp__optDial">+{{ c.dialCode }}</span>
         </button>
       }
     </div>

@@ -1,7 +1,7 @@
 export type PhoneCountry = {
   iso2: string; // e.g. 'bd'
   name: string; // e.g. 'Bangladesh'
-  dialCode: string; // e.g. '+880'
+  dialCode: string; // e.g. '880'
   example?: string; // e.g. '01712345678'
 };
 
