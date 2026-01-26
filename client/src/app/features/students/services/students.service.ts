@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, catchError, delay, map, of, tap } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, delay, map, of, tap, throwError  } from 'rxjs';
 
 import { Student } from '../models/student/student.models';
 
@@ -230,4 +230,47 @@ export class StudentsService {
 
     return deleted;
   }
+
+    /**
+   * Issue #27: Create student via API (JSON request) end-to-end
+   * Uses JSONPlaceholder as a backend stub (POST works, persistence is not real).
+   */
+  createStudentViaApi(payload: Omit<Student, 'id'>): Observable<Student> {
+    // JSON payload contract (DTO-ish)
+    const dto = {
+      name: payload.name,
+      email: payload.email,
+      phone: payload.phone,
+      hnbr: payload.hnbr,
+      department: payload.department,
+      semester: payload.semester,
+      status: payload.status,
+      avatarUrl: payload.avatarUrl,
+    };
+
+    return this.http.post<any>(this.USERS_API_URL, dto).pipe(
+      map((res) => {
+        // jsonplaceholder returns an id in the response (usually 11)
+        const id = Number(res?.id ?? Date.now());
+
+        const created: Student = {
+          ...payload,
+          id,
+          hnbr: payload.hnbr?.trim() ? payload.hnbr.trim() : String(100000 + id),
+        };
+
+        // Update in-memory cache so list reflects the created record instantly
+        const list = this.studentsCache ?? [];
+        this.studentsCache = [created, ...list];
+        this.refreshStateFromCache(50);
+
+        return created;
+      }),
+      catchError((err) => {
+        console.error('Create student API failed:', err);
+        return throwError(() => err);
+      }),
+    );
+  }
+
 }

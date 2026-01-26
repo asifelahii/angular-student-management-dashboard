@@ -133,9 +133,22 @@
       </div>
     </div>
 
+    @if (submitError) {
+      <div class="sm:col-span-2 mt-2 text-sm text-error">
+        {{ submitError }}
+      </div>
+    }
+
     <!-- Submit -->
     <div class="sm:col-span-2 mt-2 flex justify-end">
-      <button class="glass-btn" style="width: auto" type="submit">Save</button>
+      <!-- <button class="glass-btn" style="width: auto" type="submit">Save</button> -->
+      <button class="glass-btn" style="width: auto" type="submit" [disabled]="isSaving">
+        @if (isSaving) {
+          Saving…
+        } @else {
+          Save
+        }
+      </button>
     </div>
   </form>
 </div>

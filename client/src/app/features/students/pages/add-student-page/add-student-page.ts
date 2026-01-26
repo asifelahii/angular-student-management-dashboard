@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { ReactiveFormsModule, FormBuilder, Validators, FormGroup } from '@angular/forms';
 import { Router, RouterLink } from '@angular/router';
+import { finalize } from 'rxjs';
 
 import {
   GlassSelect,
@@ -17,6 +18,9 @@ import { GlassPhoneInput } from '../../../../shared/components/glass-phone-input
   styleUrl: './add-student-page.scss',
 })
 export class AddStudentPage {
+  isSaving = false;
+  submitError: string | null = null;
+
   submitted = false;
 
   avatarPreviewUrl: string | null = null;
@@ -33,7 +37,7 @@ export class AddStudentPage {
   constructor(
     private fb: FormBuilder,
     private studentService: StudentsService,
-    private router: Router
+    private router: Router,
   ) {
     // Initialize options after injection
     this.departmentOptions = this.studentService.departments.map((department) => ({
@@ -71,6 +75,7 @@ export class AddStudentPage {
 
   onSubmit() {
     this.submitted = true;
+    this.submitError = null;
 
     if (this.form.invalid) {
       this.form.markAllAsTouched();
@@ -78,18 +83,51 @@ export class AddStudentPage {
     }
 
     const value = this.form.getRawValue();
-    this.studentService.addStudent({
-      name: value.name,
-      email: value.email,
-      phone: value.phone,
-      department: value.department,
-      semester: Number(value.semester),
-      status: value.status,
-      avatarUrl: this.avatarPreviewUrl ?? undefined,
-    });
 
-    this.router.navigateByUrl('/students');
+    this.isSaving = true;
+
+    this.studentService
+      .createStudentViaApi({
+        name: value.name,
+        email: value.email,
+        phone: value.phone,
+        department: value.department,
+        semester: Number(value.semester),
+        status: value.status,
+        avatarUrl: this.avatarPreviewUrl ?? undefined,
+        // hnbr optional; service will generate if missing
+        hnbr: undefined,
+      })
+      .pipe(finalize(() => (this.isSaving = false)))
+      .subscribe({
+        next: () => this.router.navigateByUrl('/students'),
+        error: () => {
+          this.submitError = 'Failed to create student. Please try again.';
+        },
+      });
   }
+
+  // onSubmit() {
+  //   this.submitted = true;
+
+  //   if (this.form.invalid) {
+  //     this.form.markAllAsTouched();
+  //     return;
+  //   }
+
+  //   const value = this.form.getRawValue();
+  //   this.studentService.addStudent({
+  //     name: value.name,
+  //     email: value.email,
+  //     phone: value.phone,
+  //     department: value.department,
+  //     semester: Number(value.semester),
+  //     status: value.status,
+  //     avatarUrl: this.avatarPreviewUrl ?? undefined,
+  //   });
+
+  //   this.router.navigateByUrl('/students');
+  // }
 
   onAvatarSelected(event: Event) {
     this.avatarError = null;
