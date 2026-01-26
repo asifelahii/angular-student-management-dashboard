@@ -9,11 +9,12 @@ import {
   GlassSelect,
   GlassSelectOption,
 } from '../../../../shared/components/glass-select/glass-select';
+import { GlassPhoneInput } from '../../../../shared/components/glass-phone-input/glass-phone-input';
 
 @Component({
   selector: 'app-edit-student-page',
   standalone: true,
-  imports: [ReactiveFormsModule, RouterLink, GlassSelect],
+  imports: [ReactiveFormsModule, RouterLink, GlassSelect, GlassPhoneInput],
   templateUrl: './edit-student-page.html',
   styleUrls: ['./edit-student-page.scss'],
 })
@@ -59,7 +60,7 @@ export class EditStudentPage implements OnInit {
     this.form = this.fb.nonNullable.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
-      phone: ['', [Validators.required, Validators.pattern(/^[0-9+\-\s()]{7,20}$/)]],
+      phone: ['', [Validators.required]],
       department: ['', [Validators.required]],
       semester: '1',
       status: 'Active' as Student['status'],

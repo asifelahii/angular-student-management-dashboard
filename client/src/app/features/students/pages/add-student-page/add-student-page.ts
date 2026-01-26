@@ -8,10 +8,11 @@ import {
 } from '../../../../shared/components/glass-select/glass-select';
 import { StudentsService } from '../../services/students.service';
 import type { Student } from '../../models/student/student.models';
+import { GlassPhoneInput } from '../../../../shared/components/glass-phone-input/glass-phone-input';
 
 @Component({
   selector: 'app-add-student-page',
-  imports: [ReactiveFormsModule, RouterLink, GlassSelect],
+  imports: [ReactiveFormsModule, RouterLink, GlassSelect, GlassPhoneInput],
   templateUrl: './add-student-page.html',
   styleUrl: './add-student-page.scss',
 })
@@ -54,7 +55,7 @@ export class AddStudentPage {
     this.form = this.fb.nonNullable.group({
       name: ['', [Validators.required, Validators.minLength(3)]],
       email: ['', [Validators.required, Validators.email]],
-      phone: ['', [Validators.required, Validators.pattern(/^[0-9+\-\s()]{7,20}$/)]],
+      phone: ['', [Validators.required]],
       department: ['', Validators.required],
       semester: ['1', [Validators.required]],
       status: 'Active' as Student['status'],
