@@ -14,28 +14,11 @@ export class LoginPage {
   form: FormGroup;
   authError: string | null = null;
 
-  // constructor(private authService: Auth, private fb: FormBuilder, private router: Router) {
-  //   // Initialize form in constructor after fb is available
-  //   this.form = this.fb.group({
-  //     email: ['', [Validators.required, Validators.email]],
-  //     password: [
-  //       '',
-  //       [
-  //         Validators.required,
-  //         Validators.minLength(6),
-  //         Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/),
-  //       ],
-  //     ],
-  //   });
-  // }
-
-  //   my self
-
   constructor(
     private authService: Auth,
     private fb: FormBuilder,
     private router: Router,
-    private route: ActivatedRoute
+    private route: ActivatedRoute,
   ) {
     this.form = this.fb.group({
       email: [
@@ -55,6 +38,11 @@ export class LoginPage {
           Validators.pattern(/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{6,}$/),
         ],
       ],
+    });
+
+    // ✅ Clear auth error when user edits inputs again
+    this.form.valueChanges.subscribe(() => {
+      if (this.authError) this.authError = null;
     });
   }
 

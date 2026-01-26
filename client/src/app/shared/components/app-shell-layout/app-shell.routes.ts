@@ -8,6 +8,7 @@ export const appShellRoutes: Routes = [
   // /login
   {
     path: 'login',
+    // canActivate: [authGuard],
     loadComponent: () =>
       import('../../../features/auth/pages/login-page/login-page').then((m) => m.LoginPage),
     data: { hideShell: true },
@@ -19,7 +20,7 @@ export const appShellRoutes: Routes = [
     canActivate: [authGuard],
     loadComponent: () =>
       import('../../../features/students/pages/add-student-page/add-student-page').then(
-        (m) => m.AddStudentPage
+        (m) => m.AddStudentPage,
       ),
   },
 
@@ -29,7 +30,7 @@ export const appShellRoutes: Routes = [
     canActivate: [authGuard],
     loadComponent: () =>
       import('../../../features/students/pages/edit-student-page/edit-student-page').then(
-        (m) => m.EditStudentPage
+        (m) => m.EditStudentPage,
       ),
   },
 
@@ -39,7 +40,7 @@ export const appShellRoutes: Routes = [
     canActivate: [authGuard],
     loadComponent: () =>
       import('../../../features/students/pages/student-details-page/student-details-page').then(
-        (m) => m.StudentDetailsPage
+        (m) => m.StudentDetailsPage,
       ),
   },
 
@@ -49,7 +50,7 @@ export const appShellRoutes: Routes = [
     canActivate: [authGuard],
     loadComponent: () =>
       import('../../../features/students/pages/students-list-page/students-list-page').then(
-        (m) => m.StudentsListPage
+        (m) => m.StudentsListPage,
       ),
   },
 
