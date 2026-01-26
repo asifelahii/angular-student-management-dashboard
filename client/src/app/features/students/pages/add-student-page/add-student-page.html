@@ -45,22 +45,19 @@
 
     <!-- Phone -->
     <div>
-      <!-- <label class="block text-xs text-white/60 mb-1">Phone</label> -->
-      <input class="glass-input" formControlName="phone" placeholder="+880 17xx-xxxxxx" />
+      <app-glass-phone-input label="Phone" [submitted]="submitted" formControlName="phone" />
+
       @if ((f['phone'].touched || submitted) && f['phone'].errors) {
         <div class="mt-1 text-xs text-error">
           @if (f['phone'].errors['required']) {
             Phone is required.
           }
-          @if (f['phone'].errors['pattern']) {
+          @if (f['phone'].errors['invalidPhone']) {
             Enter a valid phone number.
           }
         </div>
       }
     </div>
-    <!--  -->
-
-    <!--  -->
 
     <!-- Semester -->
     <div>

@@ -1,3 +1,4 @@
+@import 'flag-icons/css/flag-icons.min.css';
 @use './app/shared/ui.scss';
 
 /* App base theme (DO NOT comment this out) */
@@ -14,12 +15,19 @@ body {
   margin: 0;
 
   /* Tahoe-ish dark wallpaper so glass looks like glass */
-  background: radial-gradient(circle at 20% 15%, rgba(255, 255, 255, 0.1), transparent 45%),
+  background:
+    radial-gradient(circle at 20% 15%, rgba(255, 255, 255, 0.1), transparent 45%),
     radial-gradient(circle at 80% 0%, rgba(255, 255, 255, 0.08), transparent 40%),
     radial-gradient(circle at 50% 100%, rgba(56, 189, 248, 0.08), transparent 50%), #0b1220;
 
   color: rgba(255, 255, 255, 0.92);
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+  font-family:
+    system-ui,
+    -apple-system,
+    Segoe UI,
+    Roboto,
+    Arial,
+    sans-serif;
 }
 
 a {

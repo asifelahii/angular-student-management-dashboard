@@ -1,0 +1,180 @@
+.gp {
+  position: relative;
+}
+
+.gp__label {
+  display: block;
+  font-size: 12px;
+  color: rgba(255, 255, 255, 0.6);
+  margin-bottom: 6px;
+}
+
+.gp__seg {
+  display: flex;
+  align-items: stretch;
+  height: 48px;
+  border-radius: 18px;
+  overflow: hidden;
+
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background: rgba(255, 255, 255, 0.06);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+
+  box-shadow: 0 18px 50px rgba(0, 0, 0, 0.35);
+  transition:
+    background 160ms ease,
+    border-color 160ms ease,
+    transform 160ms ease;
+}
+
+.gp__seg:hover {
+  background: rgba(255, 255, 255, 0.075);
+  border-color: rgba(255, 255, 255, 0.18);
+}
+
+.gp__seg:focus-within {
+  border-color: rgba(255, 255, 255, 0.22);
+  box-shadow:
+    0 18px 55px rgba(0, 0, 0, 0.42),
+    0 0 0 1px rgba(255, 255, 255, 0.06) inset;
+}
+
+.gp__country {
+  width: 140px;
+  min-width: 140px;
+  padding: 0 12px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+
+  background: transparent;
+  border: 0;
+  color: rgba(255, 255, 255, 0.9);
+  cursor: pointer;
+}
+
+.gp__country:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.gp__countryText {
+  font-weight: 600;
+  font-size: 14px;
+  letter-spacing: 0.2px;
+}
+
+.gp__chev {
+  width: 10px;
+  height: 10px;
+  display: inline-block;
+  border-right: 2px solid rgba(255, 255, 255, 0.55);
+  border-bottom: 2px solid rgba(255, 255, 255, 0.55);
+  transform: rotate(45deg);
+  margin-top: -2px;
+}
+
+.gp__input {
+  flex: 1 1 auto;
+  min-width: 0;
+  padding: 0 14px;
+  border: 0;
+  outline: none;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.92);
+  font-size: 14px;
+}
+
+.gp__input::placeholder {
+  color: rgba(255, 255, 255, 0.45);
+}
+
+/* Dropdown menu */
+.gp__menu {
+  position: absolute;
+  top: calc(100% + 10px);
+  left: 0;
+  width: 320px;
+  max-width: 100%;
+  z-index: 60;
+
+  border-radius: 18px;
+  overflow: hidden;
+
+  background: rgba(12, 18, 32, 0.72);
+  backdrop-filter: blur(26px);
+  -webkit-backdrop-filter: blur(26px);
+
+  box-shadow:
+    0 28px 70px rgba(0, 0, 0, 0.55),
+    0 0 0 1px rgba(255, 255, 255, 0.06) inset;
+  padding: 6px;
+
+  transform-origin: top;
+  animation: gp-pop 140ms ease-out;
+}
+
+@keyframes gp-pop {
+  from {
+    opacity: 0;
+    transform: translateY(-6px) scale(0.98);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+
+.gp__option {
+  width: 100%;
+  border: 0;
+  background: transparent;
+  color: rgba(255, 255, 255, 0.9);
+  padding: 10px 12px;
+  border-radius: 14px;
+  cursor: pointer;
+
+  display: flex;
+  align-items: center;
+  gap: 10px;
+
+  transition:
+    background 140ms ease,
+    transform 140ms ease;
+}
+
+.gp__option:hover {
+  background: rgba(255, 255, 255, 0.08);
+  transform: translateY(-1px);
+}
+
+.gp__flag,
+.gp__optFlag {
+  width: 18px;
+  height: 14px;
+  border-radius: 4px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.25);
+  flex: 0 0 auto;
+}
+
+.gp__optLabel {
+  flex: 1;
+  font-size: 14px;
+  opacity: 0.92;
+}
+
+.gp__optDial {
+  font-weight: 700;
+  opacity: 0.85;
+}
+
+/* Subtle error state (no harsh red blocks) */
+.gp__seg.is-invalid {
+  border-color: rgba(248, 113, 113, 0.35);
+  box-shadow:
+    0 18px 55px rgba(0, 0, 0, 0.42),
+    0 0 0 1px rgba(248, 113, 113, 0.18) inset;
+}

@@ -30,7 +30,11 @@
                 "input": "public"
               }
             ],
-            "styles": ["src/tailwind.css", "src/styles.scss"]
+            "styles": [
+              "src/tailwind.css",
+              "src/styles.scss",
+              "node_modules/flag-icons/css/flag-icons.min.css"
+            ]
           },
           "configurations": {
             "production": {
