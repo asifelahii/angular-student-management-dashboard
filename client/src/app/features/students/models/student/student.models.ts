@@ -2,7 +2,7 @@ export type StudentStatus = 'Active' | 'Inactive' | 'Graduated';
 
 export type Student = {
   id: number;
-  name: string ;
+  name: string;
   email: string;
   phone: string;
   hnbr?: string;
