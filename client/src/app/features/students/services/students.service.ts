@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { BehaviorSubject, Observable, catchError, delay, map, of, tap, throwError  } from 'rxjs';
+import { BehaviorSubject, Observable, catchError, delay, map, of, tap, throwError } from 'rxjs';
 
 import { Student } from '../models/student/student.models';
 
@@ -231,14 +231,14 @@ export class StudentsService {
     return deleted;
   }
 
-    /**
+  /**
    * Issue #27: Create student via API (JSON request) end-to-end
    * Uses JSONPlaceholder as a backend stub (POST works, persistence is not real).
    */
   createStudentViaApi(payload: Omit<Student, 'id'>): Observable<Student> {
     // JSON payload contract (DTO-ish)
     const dto = {
-      name: payload.name,
+      name: payload.name ?? '',
       email: payload.email,
       phone: payload.phone,
       hnbr: payload.hnbr,
@@ -272,5 +272,4 @@ export class StudentsService {
       }),
     );
   }
-
 }
